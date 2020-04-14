@@ -4,8 +4,9 @@
 #include<Servo.h>
 #include <Keypad.h>
 Servo Servito;
-int val = 500,sensor = 2,nivel = 0;
-const int receptor = 7, transmisor = 8, garage_ocupado = 2, garage_disponible = 1;
+int sensor = 2,nivel = 0;
+float distancia= 0, tiempo= 0;
+const int receptor = A1, transmisor = A0, garage_ocupado = A2, garage_disponible = A3;
 const byte filas = 4;
 const byte columnas = 4;
 const byte pin_filas[filas] = { 11, 10, 9, 8 };
@@ -25,6 +26,8 @@ void setup()
   Servito.attach(9);
   pinMode(receptor, INPUT);
   pinMode(transmisor, OUTPUT);
+  pinMode(garage_ocupado, OUTPUT);
+  pinMode(garage_disponible, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(12, OUTPUT);
   pinMode(4, INPUT);
@@ -32,24 +35,21 @@ void setup()
 void loop()
 {
   //Sección de la ocupación del garage
-  digitalWrite(transmisor, LOW);
-  delayMicroseconds(val);
-  digitalWrite(transmisor, HIGH);
-  delayMicroseconds(val);
-  tiempo = pulseIn(receptor, HIGH);
-  distancia = 0.017 * tiempo;
-  if(distancia <= 10 && distancia>0)
+  analogWrite(transmisor, LOW);
+  delayMicroseconds(4);
+  analogWrite(transmisor, HIGH);
+  delayMicroseconds(10);
+  tiempo = (pulseIn(receptor, HIGH)/2);
+  //distancia = 0.017 * tiempo;
+  distancia = float(tiempo *0.0343);
+  analogWrite(garage_disponible, 255);
+  if(distancia <= 2)
   {
-    digitalWrite(garage_ocupado, HIGH);
-    digitalWrite(garage_disponible, LOW);
-    delay(distancia*10);
+    analogWrite(garage_ocupado, 255);
+    analogWrite(garage_disponible, 0);
+    delayMicroseconds(10);
   }
-  else
-  {
-    digitalWrite(garage_ocupado, LOW);
-    digitalWrite(garage_disponible, HIGH);
-    delay(distancia*10);
-  }
+  /*
   //Sección del servo para abrir la puerta principal
   char tecla = keypad.getKey();
 
@@ -71,7 +71,7 @@ void loop()
     break;
   }
   Servito.write(45);
-  delay(val);
+  delay(1);*/
   //Sección del sensor de luz
   
 }
