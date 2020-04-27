@@ -41,7 +41,7 @@ void loop()
   delayMicroseconds(10);
   tiempo = (pulseIn(receptor, HIGH)/2);
   //distancia = 0.017 * tiempo;
-  distancia = float(tiempo *0.0343);
+  distancia = tiempo *0.0343;
   analogWrite(garage_disponible, 255);
   if(distancia <= 2)
   {
