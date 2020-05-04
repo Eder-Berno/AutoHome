@@ -34,6 +34,7 @@ void setup()
 }
 void loop()
 {
+  analogWrite(garage_disponible, 255);
   //Sección de la ocupación del garage
   analogWrite(transmisor, LOW);
   delayMicroseconds(4);
@@ -42,7 +43,6 @@ void loop()
   tiempo = (pulseIn(receptor, HIGH)/2);
   //distancia = 0.017 * tiempo;
   distancia = tiempo *0.0343;
-  analogWrite(garage_disponible, 255);
   if(distancia <= 2)
   {
     analogWrite(garage_ocupado, 255);
