@@ -6,7 +6,8 @@
 Servo Servito;
 int sensor = 2,nivel = 0;
 float distancia= 0, tiempo= 0;
-const int receptor = A1, transmisor = A0, garage_ocupado = A2, garage_disponible = A3;
+int valor;
+const int receptor = A1, transmisor = A0, garage_ocupado = A2, garage_disponible = A3,LDR = A4, LED_LDR = 11;
 const byte filas = 4;
 const byte columnas = 4;
 const byte pin_filas[filas] = { 11, 10, 9, 8 };
@@ -31,9 +32,11 @@ void setup()
   pinMode(3, OUTPUT);
   pinMode(12, OUTPUT);
   pinMode(4, INPUT);
+  pinMode(LED_LDR, OUTPUT);
 }
 void loop()
 {
+  /*
   analogWrite(garage_disponible, 255);
   //Sección de la ocupación del garage
   analogWrite(transmisor, LOW);
@@ -49,7 +52,6 @@ void loop()
     analogWrite(garage_disponible, 0);
     delayMicroseconds(10);
   }
-  /*
   //Sección del servo para abrir la puerta principal
   char tecla = keypad.getKey();
 
@@ -73,5 +75,9 @@ void loop()
   Servito.write(45);
   delay(1);*/
   //Sección del sensor de luz
-  
+  valor =analogRead(LDR);
+  Serial.println(valor);
+  valor=(valor*255)/1023;
+  analogWrite(LED_LDR, valor);
+  delay(500); 
 }
