@@ -4,9 +4,8 @@
 #include<Servo.h>
 #include <Keypad.h>
 Servo Servito;
-int sensor = 2,nivel = 0;
+int valor, sensor = 2,nivel = 0;
 float distancia= 0, tiempo= 0;
-int valor;
 const int receptor = A1, transmisor = A0, garage_ocupado = A2, garage_disponible = A3,LDR = A4, LED_LDR = 11;
 const byte filas = 4;
 const byte columnas = 4;
@@ -31,7 +30,7 @@ void setup()
   pinMode(garage_disponible, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(12, OUTPUT);
-  pinMode(4, INPUT);
+  pinMode(LDR, INPUT);
   pinMode(LED_LDR, OUTPUT);
 }
 void loop()
