@@ -4,7 +4,7 @@
 #include<Servo.h>
 #include <Keypad.h>
 Servo Servito;
-int valor, sensor = 2,nivel = 0;
+int valor, valor_pre, sensor = 2,nivel = 0;
 float distancia= 0, tiempo= 0;
 const int receptor = A1, transmisor = A0, garage_ocupado = A2, garage_disponible = A3,LDR = A4, LED_LDR = 11;
 const byte filas = 4;
@@ -20,6 +20,7 @@ char coordenadas[filas][columnas] = {
 Keypad keypad = Keypad(makeKeymap(coordenadas), pin_filas, pin_columna, filas, columnas);
 void setup()
 {
+  /*
   //Inicializamos la tarjeta arduino
   Serial.begin(9600);
   //Configuramos los pines a utilizar
@@ -74,9 +75,9 @@ void loop()
   Servito.write(45);
   delay(1);*/
   //Sección del sensor de luz
-  valor =analogRead(LDR);
+  valor_pre =analogRead(LDR);
   Serial.println(valor);
-  valor=(valor*255)/1023;
+  valor=(valor_pre)/10;
   analogWrite(LED_LDR, valor);
   delay(500); 
 }
